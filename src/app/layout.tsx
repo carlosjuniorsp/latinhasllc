@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import NavLink from './nav'
 import Image from 'next/image'
 import { FaBars } from 'react-icons/fa';
-import { createContext } from 'react'
 export const metadata: Metadata = {
   title: 'Latinhas LLC',
   description: 'Um projeto de latinhas',

@@ -1,25 +1,10 @@
 'use client';
-import { createContext } from 'react'
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { createContext } from 'react';
 import Link from 'next/link';
+import Grid from './components/grid';
 
-createContext('defaultValue');
-const rows: GridRowsProp = [
-  { id: 1, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'World', total_plan: "5000", total_prod: 0, status: 'PLANEJAMENTO' },
-  { id: 2, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'is Awesome', total_plan: "5000", total_prod: 2600, status: 'EM ANDAMENTO' },
-  { id: 3, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'is Amazing', total_plan: "5000", total_prod: 5000, status: 'CONCLUÍDO' },
-];
-
-const columns: GridColDef[] = [
-  { field: 'edit', headerName: 'Column 1', width: 150, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'period', headerName: 'PERÍODO', width: 150, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'sku', headerName: 'SKUs', width: 150, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'total_plan', headerName: 'TOTAL PLAN (TONS)', width: 200, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'total_prod', headerName: 'TOTAL PROOD. (TONS)', width: 200, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'status', headerName: 'STATUS', width: 200, headerAlign: 'center', align: 'center', editable: true },
-];
-
-export default function Home() {
+createContext('light')
+export default async function Home() {
 
   return (
     <div className="container">
@@ -30,11 +15,7 @@ export default function Home() {
       </Link>
 
       <div className="mt-10">
-        <DataGrid rows={rows} columns={columns} initialState={{
-          pagination: { paginationModel: { pageSize: 2 } },
-        }}
-          pageSizeOptions={[2, 4, 6]}
-        />
+        <Grid />
       </div>
     </div>
   );
