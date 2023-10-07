@@ -5,10 +5,15 @@
 :root {
   --color-black: #232120;
   --color-orange: #F05123;
+  --color-orange-hover: #d83a0e;
   --color-branco: #F1F3F4;
 }
 
-.fabars{
+.container{
+  width:60%;
+  margin: 0 auto;
+}
+.fabars {
   color: var(--color-orange)
 }
 
@@ -19,10 +24,20 @@
   overflow: auto;
   align-items: center;
 }
-.header > .user-area {
+
+.header>.user-area {
   text-align: right;
 }
-.header > .user-area span{
+
+.header>.user-area span {
   background-color: var(--color-orange);
   border-radius: 100px;
+}
+
+.btn-add {
+  background-color: var(--color-orange);
+}
+
+.btn-add:hover {
+  background-color: var(--color-orange-hover);
 }
