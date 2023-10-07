@@ -4,9 +4,9 @@ import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 createContext('defaultValue');
 
 const rows: GridRowsProp = [
-  { id: 1, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'World', total_plan: "5000", total_prod: 0 },
-  { id: 2, col1: 'DataGridPro', period: '23/05/2022 - 29/05/2022', sku: 'is Awesome', total_plan: "5000", total_prod: 2600 },
-  { id: 3, col1: 'MUI', period: '23/05/2022 - 29/05/2022', sku: 'is Amazing', total_plan: "5000", total_prod: 5000 },
+  { id: 1, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'World', total_plan: "5000", total_prod: 0 , status: 'PLANEJAMENTO'},
+  { id: 2, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'is Awesome', total_plan: "5000", total_prod: 2600 , status: 'EM ANDAMENTO'},
+  { id: 3, edit: 'EDITAR', period: '23/05/2022 - 29/05/2022', sku: 'is Amazing', total_plan: "5000", total_prod: 5000 , status: 'CONCLUÍDO'},
 ];
 
 const columns: GridColDef[] = [
@@ -15,6 +15,7 @@ const columns: GridColDef[] = [
   { field: 'sku', headerName: 'SKUs', width: 150, headerAlign: 'center', align: 'center', editable: true },
   { field: 'total_plan', headerName: 'TOTAL PLAN (TONS)', width: 200, headerAlign: 'center', align: 'center', editable: true },
   { field: 'total_prod', headerName: 'TOTAL PROOD. (TONS)', width: 200, headerAlign: 'center', align: 'center', editable: true },
+  { field: 'status', headerName: 'STATUS', width: 200, headerAlign: 'center', align: 'center', editable: true },
 ];
 export default function Home() {
   return (
