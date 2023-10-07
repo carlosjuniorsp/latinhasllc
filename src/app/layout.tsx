@@ -24,7 +24,7 @@ export default function RootLayout({
                 src="/logo.png"
                 alt="Smi"
                 className="ml-3"
-                width={600}
+                width={100}
                 height={72}
                 priority
               />

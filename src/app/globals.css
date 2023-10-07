@@ -14,9 +14,10 @@
 
 .header {
   display: grid;
-  grid-template-columns: 20px 30px 1fr;
+  grid-template-columns: 20px 1fr 1fr;
   background-color: var(--color-black);
   overflow: auto;
+  align-items: center;
 }
 .header > .user-area {
   text-align: right;
