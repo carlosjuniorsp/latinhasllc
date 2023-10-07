@@ -9,10 +9,6 @@
   --color-branco: #F1F3F4;
 }
 
-.container{
-  width:90%;
-  margin: 0 auto;
-}
 .fabars {
   color: var(--color-orange)
 }

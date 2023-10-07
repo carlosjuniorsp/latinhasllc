@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Grid from './components/grid';
 
 createContext('light')
-export default async function Home() {
+export default function Home() {
 
   return (
     <div className="container">
