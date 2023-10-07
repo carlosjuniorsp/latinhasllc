@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <header >
           <nav className="header p-5">
-            <NavLink href="/dashboard"><FaBars className="fabars" /></NavLink>
+            <NavLink href="/"><FaBars className="fabars" /></NavLink>
             <NavLink href="/">
               <Image
                 src="/logo.png"
