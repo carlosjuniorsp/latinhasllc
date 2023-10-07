@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --color-black: #232120;
+  --color-orange: #F05123;
+  --color-branco: #F1F3F4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.fabars{
+  color: var(--color-orange)
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.header {
+  display: grid;
+  grid-template-columns: 20px 30px 1fr;
+  background-color: var(--color-black);
+  overflow: auto;
+}
+.header > .user-area {
+  text-align: right;
+}
+.header > .user-area span{
+  background-color: var(--color-orange);
+  border-radius: 100px;
 }
