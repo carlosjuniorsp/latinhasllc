@@ -15,7 +15,7 @@ export default function Dashboard() {
         Swal.fire({
           title: res.data.title,
           text: res.data.message,
-          icon: res.data.title,
+          icon: res.data.success ? 'success' : 'error',
           confirmButtonText: 'Ok',
         }).then((response) => {
           if (response.isConfirmed) {

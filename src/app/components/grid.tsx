@@ -11,6 +11,9 @@ import clsx from 'clsx';
 import Swal from 'sweetalert2'
 import moment from "moment";
 
+/**
+ * Creates the data grid column structure
+ */
 const columns: GridColDef[] = [
   {
     field: 'period_of', headerName: 'PERÍODO DE', width: 170, headerAlign: 'center', align: 'center', type: 'date', editable: true,
@@ -30,7 +33,6 @@ const columns: GridColDef[] = [
       if (params.value == null) {
         return '';
       }
-
       return clsx('super-app', {
         andamento: params.value == 'EM ANDAMENTO',
         concluido: params.value == 'CONCLUÍDO',
@@ -44,7 +46,7 @@ const columns: GridColDef[] = [
   },
   {
     field: 'salvar', headerName: 'SALVAR', width: 170, headerAlign: 'center', align: 'center', editable: false, type: 'actions',
-    getActions: (params) => [<GridActionsCellItem icon={<FaSave />} label="Delete" onClick={() => saveData(params)} />]
+    getActions: (params) => [<GridActionsCellItem icon={<FaSave />} label="Delete" onClick={() => updateData(params)} />]
 
   },
 ];
@@ -79,42 +81,72 @@ export default async function Grid() {
 
       }}
     >
-      <DataGrid rows={response} columns={columns} initialState={{
-        pagination: { paginationModel: { pageSize: 15 } },
-      }}
-        pageSizeOptions={[30, 60, 90]}
-        loading={response.length > 0 ? false : true}
-      />
+      {response.length < 1 ? (
+        <>
+          <h1 className="text-lg text-black-300 text-center font-medium">Nenhuma demanda cadastrada no momento</h1>
+        </>
+      ) : (
+        <>
+          <DataGrid rows={response} columns={columns} initialState={{
+            pagination: { paginationModel: { pageSize: 15 } },
+          }}
+            pageSizeOptions={[30, 60, 90]}
+            loading={response.length > 0 ? false : true}
+          />
+        </>
+      )
+      }
+
     </Box>
   );
 }
 
+/**
+ * Get all db records
+ * @returns response json
+ */
 const getData = async () => {
   const response = await api.get("latinhas");
   return response.data;
 }
 
-const saveData = (params) => {
-  console.log(params)
-  api.put('latinhas/' + params.id, params.row)
-    .then(res => {
-      Swal.fire({
-        title: res.data.title,
-        text: res.data.message,
-        icon: res.data.title,
-        confirmButtonText: 'Ok',
-      })
+/**
+ * Update a data grid row
+ * @param params object row
+ */
+const updateData = (params) => {
+  if (params.row.status != 'EM ANDAMENTO' && params.row.status != 'CONCLUÍDO' && params.row.status != 'PLANEJAMENTO') {
+    Swal.fire({
+      title: "Opção de status inválida!",
+      html: "Somente <br><b style='color:#f00'>CONCLUÍDO, PLANEJAMENTO e EM ANDAMENTO</b> são permitidos no campo status!",
+      icon: "warning",
+      confirmButtonText: 'Ok',
     })
-    .catch(error => {
-      Swal.fire({
-        title: 'Erro!',
-        text: error,
-        icon: 'error',
-        confirmButtonText: 'Ok'
+  } else {
+    api.put('latinhas/' + params.id, params.row)
+      .then(res => {
+        Swal.fire({
+          title: res.data.title,
+          html: res.data.message,
+          icon: res.data.success ? 'success' : 'error',
+          confirmButtonText: 'Ok',
+        })
       })
-    })
+      .catch(error => {
+        Swal.fire({
+          title: 'Erro!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      })
+  }
 }
 
+/**
+ * Delete a data grid row
+ * @param id the row
+ */
 const removeData = async (id) => {
   Swal.fire({
     title: 'Deseja mesmo deletar?',
@@ -131,7 +163,7 @@ const removeData = async (id) => {
           Swal.fire({
             title: res.data.title,
             text: res.data.message,
-            icon: res.data.title,
+            icon: res.data.success ? 'success' : 'error',
             confirmButtonText: 'Ok',
           }).then((response) => {
             if (response.isConfirmed) {
