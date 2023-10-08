@@ -3,9 +3,9 @@ import {
   GridActionsCellItem,
   GridColDef,
 } from '@mui/x-data-grid';
-import axios from 'axios';
-import { FaEdit } from 'react-icons/fa';
 
+import { FaEdit } from 'react-icons/fa';
+import api from '../services/api'
 const columns: GridColDef[] = [
   {
     field: 'edit', headerName: 'EDITAR', width: 170, headerAlign: 'center', align: 'center', editable: true, type: 'actions',
@@ -27,13 +27,13 @@ export default async function Grid() {
   const response = await getData();
   return (
     <DataGrid rows={response} columns={columns} initialState={{
-      pagination: { paginationModel: { pageSize: 1 } },
+      pagination: { paginationModel: { pageSize: 5 } },
     }}
-      pageSizeOptions={[2, 3, 4]} />
+      pageSizeOptions={[5, 10, 15]} />
   );
 }
 
 const getData = async () => {
-  const response = await axios.get("http://localhost:3001/latinhas");
+  const response = await api.get("latinhas");
   return response.data;
 }
