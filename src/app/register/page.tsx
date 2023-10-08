@@ -9,11 +9,12 @@ moment.locale('pt-br');
 
 export default function Dashboard() {
   const [data, setData] = useState({});
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event) => {
+    console.log(event)
     setData({ ...data, [event.target.name]: event.target.value })
   }
 
-  function submit(event: React.ChangeEvent<HTMLInputElement>) {
+  function submit(event) {
     event.preventDefault();
     api.post('latinhas', data)
       .then(res => {
