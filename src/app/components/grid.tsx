@@ -8,6 +8,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import api from '../services/api'
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
+import Swal from 'sweetalert2'
 
 const columns: GridColDef[] = [
   {
@@ -39,14 +40,6 @@ const columns: GridColDef[] = [
 
   },
 ];
-
-function editData(id) {
-  console.log(id)
-}
-
-function removeData(id) {
-  console.log(id)
-}
 
 export default async function Grid() {
   const response = await getData();
@@ -90,4 +83,44 @@ export default async function Grid() {
 const getData = async () => {
   const response = await api.get("latinhas");
   return response.data;
+}
+
+function editData(id) {
+  console.log(id)
+}
+
+const removeData = async (id) => {
+  Swal.fire({
+    title: 'Deseja mesmo deletar?',
+    text: "Está ação não poderá ser desfeita",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sim, deletar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      api.delete("latinhas/" + id)
+        .then((res) => {
+          Swal.fire({
+            title: res.data.title,
+            text: res.data.message,
+            icon: res.data.title,
+            confirmButtonText: 'Ok',
+          }).then((response) => {
+            if (response.isConfirmed) {
+              location.href = "/"
+            }
+          })
+        })
+        .catch(error => {
+          Swal.fire({
+            title: 'Erro!',
+            text: error,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+        })
+    }
+  })
 }
