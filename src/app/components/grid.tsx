@@ -4,25 +4,29 @@ import {
   GridColDef,
   GridCellParams
 } from '@mui/x-data-grid';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaTrash, FaSave } from 'react-icons/fa';
 import api from '../services/api'
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
 import Swal from 'sweetalert2'
+import moment from "moment";
 
 const columns: GridColDef[] = [
   {
-    field: 'edit', headerName: 'EDITAR', width: 170, headerAlign: 'center', align: 'center', editable: false, type: 'actions',
-    getActions: (params) => [<GridActionsCellItem icon={<FaEdit />} label="Edit" onClick={() => editData(params.id)} />]
-
+    field: 'period_of', headerName: 'PERÍODO DE', width: 170, headerAlign: 'center', align: 'center', type: 'date', editable: true,
+    valueFormatter: params =>
+      moment(params?.value).format("DD/MM/YYYY")
   },
-  { field: 'period_of', headerName: 'PERÍODO DE', width: 170, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'period_until', headerName: 'PERÍODO ATÉ', width: 170, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'sku', headerName: 'SKUs', width: 100, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'total_plan', headerName: 'TOTAL PLAN (TONS)', width: 205, headerAlign: 'center', align: 'center', editable: true },
-  { field: 'total_prod', headerName: 'TOTAL PROOD. (TONS)', width: 205, headerAlign: 'center', align: 'center', editable: true },
   {
-    field: 'status', headerName: 'STATUS', width: 205, headerAlign: 'center', align: 'center', editable: true, type: 'string', cellClassName: (params: GridCellParams<any, string>) => {
+    field: 'period_until', headerName: 'PERÍODO ATÉ', width: 170, headerAlign: 'center', align: 'center', type: 'date', editable: true,
+    valueFormatter: params =>
+      moment(params?.value).format("DD/MM/YYYY")
+  },
+  { field: 'sku', headerName: 'SKUs', width: 100, headerAlign: 'center', align: 'center', type: 'number', editable: true },
+  { field: 'total_plan', headerName: 'TOTAL PLAN (TONS)', width: 200, headerAlign: 'center', align: 'center', type: 'number', editable: true },
+  { field: 'total_prod', headerName: 'TOTAL PROOD. (TONS)', width: 200, headerAlign: 'center', align: 'center', type: 'number', editable: true },
+  {
+    field: 'status', headerName: 'STATUS', width: 205, headerAlign: 'center', align: 'center', type: 'string', editable: true, cellClassName: (params: GridCellParams<any, string>) => {
       if (params.value == null) {
         return '';
       }
@@ -37,6 +41,10 @@ const columns: GridColDef[] = [
   {
     field: 'remove', headerName: 'REMOVER', width: 170, headerAlign: 'center', align: 'center', editable: false, type: 'actions',
     getActions: (params) => [<GridActionsCellItem icon={<FaTrash />} label="Delete" onClick={() => removeData(params.id)} />]
+  },
+  {
+    field: 'salvar', headerName: 'SALVAR', width: 170, headerAlign: 'center', align: 'center', editable: false, type: 'actions',
+    getActions: (params) => [<GridActionsCellItem icon={<FaSave />} label="Delete" onClick={() => saveData(params)} />]
 
   },
 ];
@@ -75,6 +83,7 @@ export default async function Grid() {
         pagination: { paginationModel: { pageSize: 15 } },
       }}
         pageSizeOptions={[30, 60, 90]}
+        loading={response.length > 0 ? false : true}
       />
     </Box>
   );
@@ -85,8 +94,25 @@ const getData = async () => {
   return response.data;
 }
 
-function editData(id) {
-  console.log(id)
+const saveData = (params) => {
+  console.log(params)
+  api.put('latinhas/' + params.id, params.row)
+    .then(res => {
+      Swal.fire({
+        title: res.data.title,
+        text: res.data.message,
+        icon: res.data.title,
+        confirmButtonText: 'Ok',
+      })
+    })
+    .catch(error => {
+      Swal.fire({
+        title: 'Erro!',
+        text: error,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    })
 }
 
 const removeData = async (id) => {
