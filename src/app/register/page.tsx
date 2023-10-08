@@ -5,27 +5,23 @@ import { useState } from 'react';
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import 'moment/locale/pt';
+moment.locale('pt-br');
 
 export default function Dashboard() {
-  moment.locale('pt-br');
   const [data, setData] = useState({});
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [event.target.name]: event.target.value })
   }
-  
+
   function submit(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     api.post('latinhas', data)
       .then(res => {
         Swal.fire({
-          title: 'Sucesso!',
+          title: res.data.title,
           text: res.data.message,
-          icon: 'success',
+          icon: res.data.title,
           confirmButtonText: 'Ok',
-        }).then(function (result) {
-          if (result.isConfirmed) {
-            location.href = "/"
-          }
         })
       })
       .catch(error => {
